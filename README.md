@@ -1,0 +1,1 @@
+Through this task, I learned the fundamentals of web development, including how to structure webpages using HTML, style them with CSS, and add basic interactivity using JavaScript. I also gained hands-on experience in creating responsive and user-friendly web pages.
