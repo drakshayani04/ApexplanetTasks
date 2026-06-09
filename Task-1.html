@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Drakshayani - Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    nav {
+      background: #2c3e50;
+      padding: 15px 30px;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    nav a:hover { color: #f0a500; }
+    #hero {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    #hero h1 { font-size: 42px; margin-bottom: 10px; }
+    #hero p  { font-size: 18px; color: #ccc; }
+    section {
+      padding: 50px 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    section h2 {
+      font-size: 28px;
+      border-bottom: 3px solid #f0a500;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .skill {
+      background: #2c3e50;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 15px;
+    }
+    .projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .project-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.07);
+    }
+    .project-card h3 { margin-top: 0; color: #2c3e50; }
+    .project-card p  { font-size: 14px; color: #666; }
+    #contact { text-align: center; }
+    #contact a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 30px;
+      background: #f0a500;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    #contact a:hover { background: #d4920a; }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2c3e50;
+      color: #aaa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div id="hero">
+    <h1>Drakshayani Kancharapu</h1>
+    <p>Beginner Developer | C | Python | HTML | CSS</p>
+  </div>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      Hi! I am Drakshayani Kancharapu, a beginner developer from Kurnool, Andhra Pradesh.
+      I love learning new things and building small projects using C, Python, HTML and CSS.
+      I am passionate about solving problems through code.
+    </p>
+  </section>
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <span class="skill">C Programming</span>
+      <span class="skill">Python</span>
+      <span class="skill">HTML</span>
+      <span class="skill">CSS</span>
+      <span class="skill">Problem Solving</span>
+    </div>
+  </section>
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+
+      <div class="project-card">
+        <h3>Grade Calculator</h3>
+        <p>A C program that calculates student grades and percentage based on marks entered.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Portfolio Website</h3>
+        <p>This simple portfolio page built using HTML and CSS to showcase my work.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Python Script</h3>
+        <p>A basic Python script to automate file organisation and save time.</p>
+      </div>
+
+    </div>
+  </section>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>Feel free to reach out for any opportunities or questions!</p>
+    <a href="mailto:drakshayani@example.com">Send Email</a>
+  </section>
+  <footer>
+    <p>© 2026 Drakshayani Kancharapu</p>
+  </footer>
+
+</body>
+</html>
