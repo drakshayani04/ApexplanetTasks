@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Digital Restaurant Menu</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff8ef;
+            color: #211b17
+        }
+
+        body.dark {
+            background: #171310;
+            color: #fff3e4
+        }
+
+        .dark .card,
+        .dark input,
+        .dark select,
+        .dark textarea,
+        .dark aside,
+        .dark .admin,
+        .dark nav {
+            background: #241d18;
+            color: #fff3e4;
+            border-color: #4b3b31
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        img {
+            width: 100%;
+            display: block
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 7%;
+            background: #fff8efcc;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #ead8c4
+        }
+
+        .brand {
+            font-weight: 900;
+            color: #b8322b;
+            font-size: 22px
+        }
+
+        .links {
+            display: flex;
+            gap: 18px;
+            align-items: center
+        }
+
+        .links a,
+        .small {
+            font-weight: 700;
+            font-size: 14px
+        }
+
+        .hamb {
+            display: none
+        }
+
+        .btn,
+        button {
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            background: #b8322b;
+            color: white;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .ghost {
+            background: white;
+            color: #b8322b;
+            border: 1px solid #ead8c4
+        }
+
+        .hero,
+        section {
+            padding: 70px 7%
+        }
+
+        .hero {
+            min-height: 88vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            align-items: center
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 76px);
+            line-height: .95;
+            margin: 10px 0
+        }
+
+        .tagline,
+        .muted {
+            color: #766b60
+        }
+
+        .hero img {
+            height: 520px;
+            object-fit: cover;
+            border-radius: 22px;
+            box-shadow: 0 20px 45px #6b361b33
+        }
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: end;
+            margin-bottom: 22px
+        }
+
+        h2 {
+            font-size: 34px;
+            margin: 0 0 8px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px
+        }
+
+        .card,
+        aside,
+        .admin {
+            background: white;
+            border: 1px solid #ead8c4;
+            border-radius: 10px;
+            box-shadow: 0 12px 30px #6b361b18;
+            overflow: hidden
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            transition: .25s
+        }
+
+        .pic {
+            height: 165px;
+            object-fit: cover
+        }
+
+        .pad {
+            padding: 15px
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center
+        }
+
+        .veg {
+            color: #14834f;
+            font-weight: 900
+        }
+
+        .non {
+            color: #b8322b;
+            font-weight: 900
+        }
+
+        .filters,
+        .admin form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 22px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ead8c4;
+            border-radius: 8px;
+            background: white
+        }
+
+        .price {
+            font-size: 20px;
+            color: #b8322b;
+            font-weight: 900
+        }
+
+        .offers {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .offer {
+            padding: 25px;
+            background: linear-gradient(135deg, #fff, #ffe0bb)
+        }
+
+        .cartwrap {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 22px
+        }
+
+        .cartitem {
+            display: grid;
+            grid-template-columns: 70px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px
+        }
+
+        .cartitem img {
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px
+        }
+
+        .qty button {
+            padding: 7px 10px
+        }
+
+        .bill {
+            padding: 20px;
+            position: sticky;
+            top: 85px
+        }
+
+        .line {
+            border-bottom: 1px solid #ead8c4;
+            padding: 9px 0
+        }
+
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 230px;
+            gap: 22px
+        }
+
+        .qr {
+            display: grid;
+            grid-template-columns: repeat(6, 20px);
+            gap: 4px;
+            padding: 14px
+        }
+
+        .qr span {
+            height: 20px;
+            background: #eee
+        }
+
+        .qr span:nth-child(odd),
+        .qr span:nth-child(6n) {
+            background: #111
+        }
+
+        .float,
+        .top {
+            position: fixed;
+            right: 18px;
+            z-index: 8
+        }
+
+        .float {
+            bottom: 18px;
+            border-radius: 50px
+        }
+
+        .top {
+            bottom: 72px;
+            background: #222;
+            display: none
+        }
+
+        .toast,
+        .modal {
+            position: fixed;
+            z-index: 20
+        }
+
+        .toast {
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            background: #222;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            display: none
+        }
+
+        .modal {
+            inset: 0;
+            background: #0008;
+            display: none;
+            place-items: center;
+            padding: 15px
+        }
+
+        .box {
+            background: white;
+            color: #211b17;
+            max-width: 520px;
+            width: 100%;
+            padding: 25px;
+            border-radius: 12px
+        }
+
+        .adminrow {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            padding: 12px;
+            border-top: 1px solid #ead8c4
+        }
+
+        .off {
+            opacity: .45
+        }
+
+        footer {
+            padding: 30px 7%;
+            background: #211510;
+            color: #ffe8d3
+        }
+
+        @media(max-width:900px) {
+
+            .hero,
+            .cartwrap,
+            .contact {
+                grid-template-columns: 1fr
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .filters,
+            .admin form {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .hero img {
+                height: 360px
+            }
+
+            .links {
+                display: none;
+                position: absolute;
+                top: 62px;
+                left: 7%;
+                right: 7%;
+                background: white;
+                padding: 14px;
+                border-radius: 10px;
+                box-shadow: 0 12px 30px #0002;
+                flex-direction: column
+            }
+
+            .links.show {
+                display: flex
+            }
+
+            .hamb {
+                display: block
+            }
+        }
+
+        @media(max-width:560px) {
+
+            .grid,
+            .offers,
+            .filters,
+            .admin form {
+                grid-template-columns: 1fr
+            }
+
+            .cartitem {
+                grid-template-columns: 55px 1fr
+            }
+
+            .cartitem .qty {
+                grid-column: 1/-1
+            }
+
+            .title {
+                display: block
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav><b class="brand">Aroma Table</b>
+        <div class="links" id="links"><a href="#home">Home</a><a href="#about">About</a><a href="#menu">Menu</a><a
+                href="#offers">Offers</a><a href="#cart">Cart</a><a href="#contact">Contact</a><a
+                href="#admin">Admin</a></div><button class="ghost small" onclick="dark()">Mode</button><button
+            class="hamb" onclick="links.classList.toggle('show')">Menu</button>
+    </nav>
+    <main>
+        <section class="hero" id="home">
+            <div>
+                <p class="tagline">Modern digital restaurant ordering</p>
+                <h1>Order delicious food from your table.</h1>
+                <p class="muted">Browse dishes, filter menu items, add to cart, and place your order instantly.</p><a
+                    class="btn" href="#menu">Explore Menu</a>
+            </div><img src="https://www.foodiv.com/wp-content/uploads/2023/06/online-ordering-business.jpg"
+                alt="restaurant food">
+        </section>
+        <section id="about">
+            <div class="title">
+                <div>
+                    <p class="tagline">About Restaurant</p>
+                    <h2>Fresh food, elegant service.</h2>
+                </div>
+                <p class="muted">Open daily: 10 AM - 11 PM</p>
+            </div>
+            <div class="grid offers">
+                <div class="card pad">
+                    <h3>Chef Made</h3>
+                    <p>Indian mains, biryani, desserts, fast food and beverages.</p>
+                </div>
+                <div class="card pad">
+                    <h3>Fast Prep</h3>
+                    <p>Average preparation time is 20 to 35 minutes.</p>
+                </div>
+                <div class="card pad">
+                    <h3>Easy Ordering</h3>
+                    <p>Table and delivery orders with saved cart and last order.</p>
+                </div>
+            </div>
+        </section>
+        <section id="menu">
+            <div class="title">
+                <div>
+                    <p class="tagline">Menu</p>
+                    <h2>Choose your favorite dish.</h2>
+                </div>
+            </div>
+            <div class="filters"><input id="search" placeholder="Search food"><select id="cat">
+                    <option>All</option>
+                </select><select id="type">
+                    <option>All</option>
+                    <option>Veg</option>
+                    <option>Non-Veg</option>
+                </select><select id="sort">
+                    <option>Default</option>
+                    <option>Low to High</option>
+                    <option>High to Low</option>
+                </select></div>
+            <div class="grid" id="menuGrid"></div>
+        </section>
+        <section id="offers">
+            <div class="title">
+                <div>
+                    <p class="tagline">Special Offers</p>
+                    <h2>Today&apos;s deals.</h2>
+                </div>
+            </div>
+            <div class="grid offers">
+                <div class="card offer">
+                    <h3>20% Student Combo</h3>
+                    <p>Paneer curry, rice and lime soda.</p>
+                </div>
+                <div class="card offer">
+                    <h3>Biryani Feast</h3>
+                    <p>Biryani, raita, dessert and drink.</p>
+                </div>
+                <div class="card offer">
+                    <h3>Dessert Hour</h3>
+                    <p>Buy two desserts, get beverage half price.</p>
+                </div>
+            </div>
+        </section>
+        <section id="cart">
+            <div class="title">
+                <div>
+                    <p class="tagline">Cart</p>
+                    <h2>Your order.</h2>
+                </div><button onclick="cart=[];save();drawCart();toast('Cart emptied')">Empty Cart</button>
+            </div>
+            <div class="cartwrap">
+                <div id="cartItems"></div>
+                <aside class="bill">
+                    <h3>Bill Summary</h3>
+                    <div id="bill"></div>
+                    <h3>Place Order</h3><input id="name" placeholder="Customer name"><input id="phone"
+                        placeholder="Phone number"><select id="mode">
+                        <option value="">Table or Delivery?</option>
+                        <option>Table</option>
+                        <option>Delivery</option>
+                    </select><input id="place" placeholder="Table number / address"><textarea id="note"
+                        placeholder="Special instructions"></textarea><button onclick="order()">Place Order</button>
+                </aside>
+            </div>
+        </section>
+        <section id="contact" class="contact">
+            <div>
+                <p class="tagline">Contact</p>
+                <h2>Visit us or scan QR.</h2>
+                <p>21 Food Street, City Center, India</p>
+                <p>Phone: +91 98765 43210</p>
+            </div>
+            <div class="card pad">
+                <div class="qr" id="qr"></div><b>Scan Menu QR</b>
+            </div>
+        </section>
+        <section id="admin" class="admin">
+            <div class="pad">
+                <p class="tagline">Admin Panel</p>
+                <h2>Manage menu.</h2>
+                <form onsubmit="adminSave(event)"><input id="an" placeholder="Name"><input id="ap" type="number"
+                        placeholder="Price"><input id="ai" placeholder="Image URL"><select id="ac"></select><select
+                        id="at">
+                        <option>Veg</option>
+                        <option>Non-Veg</option>
+                    </select><input id="ad" placeholder="Description"><button>Save Item</button></form>
+            </div>
+            <div id="adminList"></div>
+        </section>
+    </main>
+    <button class="top" id="backTop" onclick="scrollTo(0,0)">Top</button><button class="float"
+        onclick="location.hash='cart'">Cart <span id="count">0</span></button>
+    <div class="toast" id="msg"></div>
+    <div class="modal" id="modal">
+        <div class="box"><button onclick="modal.style.display='none'">Close</button>
+            <div id="summary"></div>
+        </div>
+    </div>
+    <footer><b>Aroma Table</b>
+        <p>Digital Restaurant Menu and Ordering System using HTML, CSS and JavaScript.</p>
+    </footer>
+    <script>
+        let cats = ["Starters", "Main Course", "Rice", "Biryani", "Fast Food", "Desserts", "Beverages"], edit = null;
+        let items = JSON.parse(localStorage.menu || "null") || [
+            ["Paneer Tikka", "Smoky paneer with mint chutney", "Starters", "Veg", 180, 4.8, "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=900&q=80", 1], ["Chicken Lollipop", "Spicy Indo-Chinese chicken wings", "Starters", "Non-Veg", 240, 4.7, "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=900&q=80", 1], ["Paneer Butter Masala", "Creamy tomato paneer curry", "Main Course", "Veg", 260, 4.9, "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=900&q=80", 1], ["Butter Chicken", "Rich buttery chicken curry", "Main Course", "Non-Veg", 320, 4.9, "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=900&q=80", 1], ["Jeera Rice", "Basmati rice with cumin", "Rice", "Veg", 140, 4.5, "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=900&q=80", 1], ["Chicken Biryani", "Hyderabadi chicken biryani", "Biryani", "Non-Veg", 340, 4.9, "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=900&q=80", 1], ["Cheese Burger", "Crispy patty and cheese sauce", "Fast Food", "Veg", 190, 4.4, "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80", 1], ["Brownie Sundae", "Brownie with ice cream", "Desserts", "Veg", 170, 4.8, "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=80", 1], ["Mango Lassi", "Creamy mango yogurt drink", "Beverages", "Veg", 110, 4.8," https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlSlQ45vH_JReiUTNXyYvVMwW6Lb5G05fLRA&s", 1]];
+        let cart = JSON.parse(localStorage.cart || "[]"), fav = JSON.parse(localStorage.fav || "[]"), rate = JSON.parse(localStorage.rate || "{}");
+        cats.map(c => { cat.innerHTML += `<option>${c}</option>`; ac.innerHTML += `<option>${c}</option>` }); for (let i = 0; i < 24; i++)qr.innerHTML += "<span></span>";
+        function draw() { let a = items.map((x, i) => [...x, i]).filter(x => (cat.value == "All" || x[2] == cat.value) && (type.value == "All" || x[3] == type.value) && x[0].toLowerCase().includes(search.value.toLowerCase())); if (sort.value[0] == "L") a.sort((x, y) => x[4] - y[4]); if (sort.value[0] == "H") a.sort((x, y) => y[4] - x[4]); menuGrid.innerHTML = a.map(x => `<div class="card ${x[7] ? '' : 'off'}"><img class="pic" src="${x[6]}"><div class="pad"><div class="row"><b class="${x[3] == 'Veg' ? 'veg' : 'non'}">${x[3]}</b><span>★ ${rate[x[8]] || x[5]}</span></div><h3>${x[0]}</h3><p class="muted">${x[1]}</p><p>${x[2]}</p><div class="row"><b class="price">Rs. ${x[4]}</b><button onclick="add(${x[8]})" ${x[7] ? '' : 'disabled'}>Add</button></div><p><button class="ghost" onclick="favDish(${x[8]})">${fav.includes(x[8]) ? '♥' : '♡'} Fav</button> ${[1, 2, 3, 4, 5].map(n => `<button class="ghost" onclick="rateDish(${x[8]},${n})">${n}</button>`).join('')}</p></div></div>`).join("") || "<p>No dish found.</p>"; adminDraw() }
+        function add(i) { let c = cart.find(x => x.i == i); c ? c.q++ : cart.push({ i, q: 1 }); save(); drawCart(); toast("Added to cart") }
+        function drawCart() { let sub = 0; cartItems.innerHTML = cart.map(c => { let x = items[c.i]; if (!x) return ""; sub += x[4] * c.q; return `<div class="card cartitem pad"><img src="${x[6]}"><div><b>${x[0]}</b><p>Rs. ${x[4]} x ${c.q}</p></div><div class="qty"><button onclick="qty(${c.i},-1)">-</button><b>${c.q}</b><button onclick="qty(${c.i},1)">+</button><button onclick="rem(${c.i})">Remove</button></div></div>` }).join("") || "<p class='card pad'>Cart is empty.</p>"; let tax = Math.round(sub * .05); bill.innerHTML = `<p class="line">Subtotal <b>Rs. ${sub}</b></p><p class="line">Tax 5% <b>Rs. ${tax}</b></p><h3>Total Rs. ${sub + tax}</h3>`; count.innerText = cart.reduce((s, x) => s + x.q, 0) }
+        function qty(i, n) { let c = cart.find(x => x.i == i); c.q += n; if (c.q < 1) rem(i); save(); drawCart() } function rem(i) { cart = cart.filter(x => x.i != i); save(); drawCart() } function save() { localStorage.cart = JSON.stringify(cart); localStorage.menu = JSON.stringify(items); localStorage.fav = JSON.stringify(fav); localStorage.rate = JSON.stringify(rate) }
+        function order() { if (!cart.length) return toast("Cart is empty"); if (name.value.length < 3 || !/^[6-9]\d{9}$/.test(phone.value) || !mode.value || !place.value) return toast("Fill valid order details"); let id = "ORD" + Date.now().toString().slice(-6), sub = cart.reduce((s, c) => s + items[c.i][4] * c.q, 0), tax = Math.round(sub * .05), mins = 20 + cart.length * 5; summary.innerHTML = `<h2>Order Confirmed</h2><p><b>Order ID:</b> ${id}</p><p><b>Name:</b> ${name.value}</p><p><b>${mode.value}:</b> ${place.value}</p><p><b>Prep Time:</b> ${mins} minutes</p>${cart.map(c => `<p>${items[c.i][0]} x ${c.q}</p>`).join("")}<h3>Total Rs. ${sub + tax}</h3>`; localStorage.lastOrder = summary.innerHTML; cart = []; save(); drawCart(); modal.style.display = "grid" }
+        function adminDraw() { adminList.innerHTML = items.map((x, i) => `<div class="adminrow ${x[7] ? '' : 'off'}"><span>${x[0]} - Rs. ${x[4]} (${x[2]})</span><span><button onclick="editItem(${i})">Edit</button><button onclick="items[${i}][7]=!items[${i}][7];save();draw()">Available</button><button onclick="items.splice(${i},1);save();draw()">Delete</button></span></div>`).join("") }
+        function adminSave(e) { e.preventDefault(); let x = [an.value, ad.value, ac.value, at.value, +ap.value, 4.5, ai.value, 1]; if (!x[0] || !x[1] || !x[4] || !x[6]) return toast("Fill admin fields"); edit == null ? items.push(x) : items[edit] = x; edit = null; e.target.reset(); save(); draw(); toast("Menu saved") }
+        function editItem(i) { edit = i; let x = items[i]; an.value = x[0]; ad.value = x[1]; ac.value = x[2]; at.value = x[3]; ap.value = x[4]; ai.value = x[6]; scrollTo(0, document.body.scrollHeight) }
+        function favDish(i) { fav.includes(i) ? fav = fav.filter(x => x != i) : fav.push(i); save(); draw() } function rateDish(i, n) { rate[i] = n; save(); draw() } function dark() { document.body.classList.toggle("dark"); localStorage.theme = document.body.className } function toast(t) { let m = document.getElementById("msg"); m.innerText = t; m.style.display = "block"; setTimeout(() => m.style.display = "none", 1800) }
+        search.oninput = cat.onchange = type.onchange = sort.onchange = draw; onscroll = () => backTop.style.display = scrollY > 400 ? "block" : "none"; document.body.className = localStorage.theme || ""; draw(); drawCart();
+    </script>
+</body>
+
+</html>
