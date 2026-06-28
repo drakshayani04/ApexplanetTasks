@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task 3</title>
+<style>
+  :root{
+    --navy:#10243e;
+    --navy-deep:#0a1830;
+    --cream:#f6f1e6;
+    --ink:#1d2a3a;
+    --muted:#6b6357;
+    --line:#d9cfb8;
+    --gold:#a9842f;
+    --gold-soft:#c9a85e;
+    --wrong:#8c3b30;
+    --right:#2f5b46;
+  }
+
+  *{box-sizing:border-box;}
+
+  html, body{ margin:0; min-height:100vh; }
+
+  body{
+    background:
+      radial-gradient(ellipse at top, #163050 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+  }
+
+  .card{
+    width:100%;
+    max-width:600px;
+    background:var(--cream);
+    border:1px solid rgba(169,132,47,0.35);
+    border-radius:2px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 30px 60px -25px rgba(0,0,0,0.65);
+    overflow:hidden;
+    position:relative;
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1px solid rgba(169,132,47,0.45);
+    pointer-events:none;
+    z-index:2;
+  }
+
+  .ribbon{
+    background:var(--navy-deep);
+    color:var(--cream);
+    padding:30px 40px 22px;
+    text-align:center;
+    position:relative;
+  }
+
+  .ribbon .eyebrow{
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.66rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:8px;
+  }
+
+  .ribbon h1{
+    margin:0;
+    font-size:1.6rem;
+    font-weight:400;
+    letter-spacing:0.03em;
+    font-family:'Garamond', 'Georgia', serif;
+  }
+
+  .ribbon .rule{
+    width:60px;
+    height:1px;
+    background:var(--gold-soft);
+    margin:14px auto 0;
+    opacity:0.7;
+  }
+
+  .ribbon span{
+    display:block;
+    margin-top:10px;
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    color:rgba(246,241,230,0.6);
+    font-family:'Trebuchet MS', sans-serif;
+  }
+
+  .track{
+    height:2px;
+    background:rgba(169,132,47,0.25);
+    position:relative;
+  }
+  .track-fill{
+    height:100%;
+    background:var(--gold);
+    width:0%;
+    transition:width 0.5s ease;
+  }
+
+  .body-area{
+    padding:38px 44px 36px;
+    position:relative;
+    z-index:1;
+  }
+
+  .qnum{
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    color:var(--gold);
+    margin-bottom:14px;
+    text-align:center;
+  }
+
+  .question{
+    font-size:1.42rem;
+    line-height:1.5;
+    margin:0 0 28px;
+    text-align:center;
+    color:var(--navy-deep);
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .opt{
+    text-align:left;
+    padding:15px 20px;
+    border:1px solid var(--line);
+    border-radius:1px;
+    background:#fffdf7;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.12s;
+    color:var(--ink);
+    letter-spacing:0.01em;
+  }
+
+  .opt:hover{
+    border-color:var(--gold);
+    background:#fbf6ea;
+  }
+
+  .opt:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  .opt.correct{
+    border-color:var(--right);
+    background:#e8f0ea;
+    color:var(--right);
+    font-weight:600;
+  }
+
+  .opt.wrong{
+    border-color:var(--wrong);
+    background:#f5e9e6;
+    color:var(--wrong);
+  }
+
+  .opt[disabled]{
+    cursor:default;
+  }
+
+  .opt:not(.correct):not(.wrong):not(:hover)[disabled]{
+    opacity:0.5;
+  }
+
+  .feedback{
+    min-height:22px;
+    margin-top:20px;
+    text-align:center;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--navy-deep);
+  }
+
+  .nextbtn{
+    margin:22px auto 0;
+    display:none;
+    background:var(--navy-deep);
+    color:var(--cream);
+    border:1px solid var(--gold);
+    padding:12px 28px;
+    border-radius:1px;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .nextbtn:hover{ background:#1a3458; }
+
+  .result{
+    text-align:center;
+  }
+  .result .score{
+    font-size:3.2rem;
+    color:var(--navy-deep);
+    margin:10px 0 6px;
+    font-family:'Garamond', 'Georgia', serif;
+    font-weight:400;
+    letter-spacing:0.02em;
+  }
+  .result .verdict{
+    font-style:italic;
+    color:var(--muted);
+    margin-bottom:30px;
+    font-size:0.98rem;
+  }
+  .retry{
+    background:transparent;
+    border:1px solid var(--navy-deep);
+    color:var(--navy-deep);
+    padding:11px 26px;
+    border-radius:1px;
+    font-family:'Trebuchet MS', sans-serif;
+    cursor:pointer;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .retry:hover{ background:var(--navy-deep); color:var(--cream); }
+
+  .hidden{ display:none; }
+
+  @media (max-width: 480px){
+    .ribbon{ padding:24px 24px 18px; }
+    .body-area{ padding:30px 24px 28px; }
+    .ribbon h1{ font-size:1.3rem; }
+    .question{ font-size:1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="ribbon">
+    <div class="eyebrow">Examination</div>
+    <h1>General Knowledge Quiz</h1>
+    <div class="rule"></div>
+    <span id="progressLabel">Question 1 of 6</span>
+  </div>
+  <div class="track"><div class="track-fill" id="trackFill"></div></div>
+
+  <div class="body-area">
+
+    <div id="quizArea">
+      <div class="qnum" id="qnum">QUESTION 1</div>
+      <p class="question" id="questionText"></p>
+      <div class="options" id="optionsArea"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="nextbtn" id="nextBtn">Next question →</button>
+    </div>
+
+    <div id="resultArea" class="result hidden">
+      <div class="qnum">RESULT</div>
+      <p class="question">Quiz complete</p>
+      <div class="score" id="scoreText"></div>
+      <p class="verdict" id="verdictText"></p>
+      <button class="retry" id="retryBtn">Try again</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "What is the capital of Australia?",
+    options: ["Sydney", "Melbourne", "Canberra", "Perth"],
+    answer: 2
+  },
+  {
+    q: "Which planet is known as the Red Planet?",
+    options: ["Venus", "Mars", "Jupiter", "Saturn"],
+    answer: 1
+  },
+  {
+    q: "Who wrote the play 'Romeo and Juliet'?",
+    options: ["Charles Dickens", "William Shakespeare", "Leo Tolstoy", "Mark Twain"],
+    answer: 1
+  },
+  {
+    q: "What is the largest ocean on Earth?",
+    options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+    answer: 3
+  },
+  {
+    q: "Which gas do plants primarily absorb for photosynthesis?",
+    options: ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+    answer: 2
+  },
+  {
+    q: "In which year did India gain independence?",
+    options: ["1942", "1945", "1947", "1950"],
+    answer: 2
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const questionText = document.getElementById('questionText');
+const optionsArea = document.getElementById('optionsArea');
+const feedback = document.getElementById('feedback');
+const nextBtn = document.getElementById('nextBtn');
+const qnum = document.getElementById('qnum');
+const progressLabel = document.getElementById('progressLabel');
+const trackFill = document.getElementById('trackFill');
+const quizArea = document.getElementById('quizArea');
+const resultArea = document.getElementById('resultArea');
+const scoreText = document.getElementById('scoreText');
+const verdictText = document.getElementById('verdictText');
+const retryBtn = document.getElementById('retryBtn');
+
+function loadQuestion(){
+  answered = false;
+  feedback.textContent = '';
+  nextBtn.style.display = 'none';
+
+  const item = questions[current];
+  qnum.textContent = `QUESTION ${current + 1}`;
+  progressLabel.textContent = `Question ${current + 1} of ${questions.length}`;
+  trackFill.style.width = `${(current / questions.length) * 100}%`;
+  questionText.textContent = item.q;
+
+  optionsArea.innerHTML = '';
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => selectOption(i, btn));
+    optionsArea.appendChild(btn);
+  });
+}
+
+function selectOption(i, btn){
+  if (answered) return;
+  answered = true;
+  const item = questions[current];
+  const allButtons = optionsArea.querySelectorAll('.opt');
+
+  allButtons.forEach(b => b.disabled = true);
+
+  if (i === item.answer){
+    btn.classList.add('correct');
+    score++;
+    feedback.textContent = 'Correct.';
+  } else {
+    btn.classList.add('wrong');
+    allButtons[item.answer].classList.add('correct');
+    feedback.textContent = 'Not quite — the right answer is highlighted above.';
+  }
+
+  trackFill.style.width = `${((current + 1) / questions.length) * 100}%`;
+
+  if (current < questions.length - 1){
+    nextBtn.style.display = 'inline-block';
+  } else {
+    setTimeout(showResult, 900);
+  }
+}
+
+nextBtn.addEventListener('click', () => {
+  current++;
+  loadQuestion();
+});
+
+function showResult(){
+  quizArea.classList.add('hidden');
+  resultArea.classList.remove('hidden');
+  scoreText.textContent = `${score} / ${questions.length}`;
+
+  let verdict;
+  if (score === questions.length) verdict = "Clean sweep. Solid fundamentals.";
+  else if (score >= questions.length - 1) verdict = "Very strong — just a small gap to close.";
+  else if (score >= questions.length / 2) verdict = "Decent grasp, worth a quick revisit on the misses.";
+  else verdict = "Foundations need another pass — that's what practice is for.";
+  verdictText.textContent = verdict;
+}
+
+retryBtn.addEventListener('click', () => {
+  current = 0;
+  score = 0;
+  resultArea.classList.add('hidden');
+  quizArea.classList.remove('hidden');
+  loadQuestion();
+});
+
+loadQuestion();
+</script>
+
+</body>
+</html>
